@@ -98,7 +98,7 @@ class ToolbarState extends State<Toolbar> {
       padding: const EdgeInsets.all(16),
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: MyColortheme.darkbg,
         borderRadius: BorderRadius.circular(20),
         boxShadow: const [
           BoxShadow(
@@ -116,7 +116,7 @@ class ToolbarState extends State<Toolbar> {
             style: GoogleFonts.roboto(
               fontSize: 20,
               fontWeight: FontWeight.bold,
-              color: MyColortheme.bleuPrimaire,
+              color: Colors.white,
             ),
           ),
           const SizedBox(height: 5),
@@ -144,8 +144,8 @@ class ToolbarState extends State<Toolbar> {
               Icon(FontAwesomeIcons.leaf, color: MyColortheme.vertPomme, size: 18),
               const SizedBox(width: 10),
               Text(
-                'Consommation de CO2: 0.5 kg',
-                style: GoogleFonts.roboto(fontSize: 16, color: Colors.grey[700]),
+                'Déterminez votre empreinte carbone',
+                style: GoogleFonts.roboto(fontSize: 16, color: Colors.white),
               ),
             ],
           ),
@@ -156,7 +156,7 @@ class ToolbarState extends State<Toolbar> {
           const SizedBox(height: 16),
           ElevatedButton.icon(
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.redAccent,
+              backgroundColor: MyColortheme.lightpink,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30),
               ),
@@ -204,7 +204,7 @@ class ToolbarState extends State<Toolbar> {
                 width: 80.0,
                 height: 80.0,
                 point: LatLng(coordinates["latitude"]!, coordinates["longitude"]!),
-                child: Icon(
+                child: const Icon(
                   Icons.location_on,
                   color: Colors.red,
                   size: 40,
@@ -216,7 +216,7 @@ class ToolbarState extends State<Toolbar> {
                 width: 80.0,
                 height: 80.0,
                 point: LatLng(coordinates["latitude"]!, coordinates["longitude"]!),
-                child:  Icon(
+                child: const Icon(
                   Icons.location_on,
                   color: Colors.green,
                   size: 40,
@@ -230,13 +230,13 @@ class ToolbarState extends State<Toolbar> {
           }
         });
       },
-      style: TextStyle(fontSize: 16, color: Colors.grey[700]),
+      style: TextStyle(fontSize: 16, color: Colors.white),
       controller: controller,
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: TextStyle(fontSize: 16, color: Colors.grey[700]),
-        hintStyle: TextStyle(fontSize: 16, color: Colors.grey[700]),
-        prefixIcon: Icon(icon, color: Colors.grey[700]),
+        labelStyle: TextStyle(fontSize: 16, color: Colors.white),
+        hintStyle: TextStyle(fontSize: 16, color: Colors.white),
+        prefixIcon: Icon(icon, color: MyColortheme.lightblue),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
         ),
@@ -257,7 +257,7 @@ class ToolbarState extends State<Toolbar> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Icon(icon, color: Colors.grey[700], size: 18),
+              Icon(icon, color: MyColortheme.lightblue, size: 18),
               Text(value, style: const TextStyle(fontSize: 16)),
             ],
           ),
@@ -271,7 +271,7 @@ class ToolbarState extends State<Toolbar> {
       margin: const EdgeInsets.only(top: 10),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.grey.shade100,
+        color: Colors.white,
         borderRadius: BorderRadius.circular(10),
       ),
       child: Row(

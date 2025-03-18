@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:mapapp/components/myColorTheme.dart';
@@ -83,11 +85,20 @@ class JourneyDialogState extends State<JourneyDialog> {
     return Container(
       width: 600,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: MyColortheme.darkbg,
         borderRadius: BorderRadius.circular(20),
       ),
       child: isLoading
-          ? const Center(child: CircularProgressIndicator())
+          ? Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SpinKitChasingDots(color: MyColortheme.lightblue,),
+                const SizedBox(height: 5,),
+                const Text("Rercherche du trajet le plus optimisé...", style: TextStyle(color: Colors.white, fontSize: 20),),
+              ],
+            )
+          )
           : journeys.isEmpty
               ? const Center(child: Text("Aucun trajet disponible"))
               : ListView.builder(
@@ -100,7 +111,7 @@ class JourneyDialogState extends State<JourneyDialog> {
                     final sections = journey["sections"] ?? [];
 
                     return Card(
-                      color: Colors.white,
+                      color: MyColortheme.darkbg,
                       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                       elevation: 6,
@@ -112,10 +123,10 @@ class JourneyDialogState extends State<JourneyDialog> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                SvgPicture.asset("assets/images/sncf-4.svg", height: 40),
+                                Image.asset("images/realicon.png", height: 100),
                                 Text(
                                   "Durée: ${Duration(seconds: duration).inMinutes} min",
-                                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
+                                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
                                 ),
                               ],
                             ),
@@ -126,20 +137,29 @@ class JourneyDialogState extends State<JourneyDialog> {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text("🛫 Départ:", style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.black)),
+                                    Text("🛫 Départ:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey[500])),
                                     Text(_formatDateTime(departure), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.grey[700])),
                                   ],
                                 ),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
-                                    Text("🛬 Arrivée:", style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.black)),
+                                    Text("🛬 Arrivée:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey[500])),
                                     Text(_formatDateTime(arrival), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.grey[700])),
                                   ],
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 12),
+                            const SizedBox(height: 15),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Icon(FontAwesomeIcons.leaf, color: Colors.green, size: 16),
+                                const SizedBox(width: 8),
+                                Text("Consommation: ${journey["co2_emission"]["value"] ?? 0} ${journey["co2_emission"]["unit"] ?? "Impossible de récupérer la consommation"}", style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16)),
+                              ],
+                            ),
+                            const SizedBox(height: 10),
                             const Divider(),
                             Column(
                               children: sections.asMap().entries.map<Widget>((entry) {
@@ -164,17 +184,24 @@ class JourneyDialogState extends State<JourneyDialog> {
                                           child: Column(
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
+                                              if (from != "?" && to != "?")...[
+                                                Text(
+                                                  "$from → $to",
+                                                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16, color: Colors.grey[500]),
+                                                ),
+                                              ] else...[
+                                                Text(
+                                                  "Attente/Changement",
+                                                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16, color: Colors.grey[500]),
+                                                ),
+                                              ],
                                               Text(
-                                                "$from → $to",
-                                                style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 16, color: Colors.black),
-                                              ),
-                                              Text(
-                                                "Mode: ${(mode).toUpperCase()} | Ligne: $lineInfo",
+                                                "Mode: ${(mode).toUpperCase()} | Ligne: ${lineInfo ?? "inconnue"}",
                                                 style: TextStyle(color: Colors.grey[700]),
                                               ),
                                               Text(
                                                 "Départ: $departureTime - Arrivée: $arrivalTime",
-                                                style: TextStyle(color: Colors.grey[500]),
+                                                style: TextStyle(color: Colors.grey[700]),
                                               ),
                                             ],
                                           ),
@@ -193,6 +220,19 @@ class JourneyDialogState extends State<JourneyDialog> {
                                   ],
                                 );
                               }).toList(),
+                            ),
+                            const SizedBox(height: 20),
+                            Align(
+                              alignment: Alignment.center,
+                              child: ElevatedButton.icon(
+                                onPressed: () {},
+                                label: const Text("Réserver mon trajet", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black)),
+                                icon: const Icon(Icons.play_arrow, color: Colors.black),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: MyColortheme.lightblue,
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                                ),
+                              ),
                             ),
                           ],
                         ),
@@ -224,7 +264,7 @@ class JourneyDialogState extends State<JourneyDialog> {
       case "public_transport":
         return const Icon(Icons.directions_transit, color: Colors.teal);
       case "waiting":
-        return const Icon(Icons.hourglass_empty, color: Colors.grey);
+        return const Icon(Icons.access_time, color: Colors.grey);
       default:
         return const Icon(Icons.directions, color: Colors.grey);
     }

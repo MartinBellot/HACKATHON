@@ -21,7 +21,7 @@ class HomepageState extends State<Homepage> {
   final MapController _mapController = MapController();
   final LatLng _currentCenter = const LatLng(48.11618809738349, -1.665820539550782);
   LatLng? _userLocation;
-  final String _tileLayerId = 'mapbox/streets-v11';
+  final String _tileLayerId = 'mapbox/dark-v10';
 
   List<Marker> _stations = [];
 
@@ -171,29 +171,30 @@ class HomepageState extends State<Homepage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: MyColortheme.coolGray1,
-        title: SvgPicture.asset(
-          'images/sncf-4.svg',
+        backgroundColor: MyColortheme.darkbg,
+        foregroundColor: Colors.white,
+        title: Image.asset(
+          'images/realicon.png',
           width: 100,
-          height: 40,
+          height: 100,
         ),
         actions: [
           IconButton(
-            color: MyColortheme.noirSorete,
+            //color: MyColortheme.noirSorete,
             onPressed: (){
               showDialogWhereYouGo();
             },
             icon: const Icon(Icons.search),
           ),
           IconButton(
-            color: MyColortheme.noirSorete,
+            //color: MyColortheme.noirSorete,
             onPressed: (){
               _fetchGaresSNCF();
             },
             icon: const Icon(Icons.refresh),
           ),
           IconButton(
-            color: MyColortheme.noirSorete,
+            //color: MyColortheme.noirSorete,
             onPressed: (){
             },
             icon: const Icon(Icons.notifications),

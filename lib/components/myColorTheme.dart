@@ -27,4 +27,9 @@ class MyColortheme {
   static Color coolGray9 = const Color(0xFF7E7E7E);
   static Color coolGray11 = const Color(0xFF595959);
   static Color noirSorete = const Color(0xFF231F20);
+
+  static Color darkbg = const Color.fromRGBO(13, 19, 30, 1);
+  static Color lightblue = const Color.fromRGBO(162, 230, 251, 1);
+  static Color lightpink = const Color.fromRGBO(217, 135, 138, 1);
+  static Color lightGray = const Color.fromRGBO(243, 243, 248, 1);
 }
